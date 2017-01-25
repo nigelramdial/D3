@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!-- HTML5 Hello world by kirupa - http://www.kirupa.com/html5/getting_your_feet_wet_html5_pg1.htm -->
+<html lang="en-us">
+
+<head>
+		<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<!--<meta charset="utf-8">-->
+<!--<title>D3 fund</title>-->
+
+</head>
+
+<body>
+
+<script> 
+	var h=100;
+	var w=400;
+	var ds;
+	
+	function buildline() {
+		
+		var lineFun = d3.svg.line()
+				.x(function (d) {return ((d.month-20130001)/3.25); })
+				.y(function (d) {return h-d.sales; })
+				.interpolate("linear");
+				
+			var svg = d3.select("body").append("svg").attr({width:w, height:h });
+			
+			var viz = svg.append("path")
+						.attr({
+							d: lineFun(ds),
+							"stroke" : "purple",
+							"stroke-width" : 2,
+							"fill" : "none"
+						});
+	}
+	
+	d3.csv("BJsales.csv", function(error, data) {
+		
+		if(error) {
+			console.log(error);
+			} else {
+				console.log(data);
+				ds=data;
+			}
+		
+		buildline();
+			
+	});
+	
+</script>
+
+</body>
+</html>
